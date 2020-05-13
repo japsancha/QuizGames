@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Questionário de Jogos</title>
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Press+Start+2P"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/nes.css@latest/css/nes.min.css"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div class="header">
+        <h1>QUESTIONÁRIO SOBRE JOGOS</h1>
+        <p>Vamos jogar</p>
+        <div class="info">
+          <div class="vidas icon-list">
+            <div class="vazios">
+              <i class="nes-icon margem is-medium heart is-empty"></i>
+              <i class="nes-icon margem is-medium heart is-empty"></i>
+              <i class="nes-icon margem is-medium heart is-empty"></i>
+            </div>
+            <div class="cheios">
+              <i v-for="vida in vidas" class="nes-icon is-medium heart"></i>
+            </div>
+          </div>
+          <div class="textos">
+            <span>TEMPO: {{ tempo }}s</span>
+            <span>NIVEL: {{ indices.length }}/ {{ questionario.length }}</span>
+          </div>
+        </div>
+        <progress
+          class="nes-progress is-success"
+          :value="nivel"
+          max="100">
+        </progress>
+      </div>
+      <div v-show="vidas > 0" class="quiz">
+        <div class="nes-container with-title is-centered">
+          <p class="title" v-if="questao">{{ questao.pergunta }}</p>
+          <div class="perguntas">
+            <label>
+              <input
+                v-model="resposta"
+                value="1"
+                type="radio"
+                class="nes-radio"
+                name="answer"
+                checked
+              />
+              <span v-if="questao">{{ questao.op1 }}</span>
+            </label>
+
+            <label>
+              <input
+                v-model="resposta"
+                value="2"
+                type="radio"
+                class="nes-radio"
+                name="answer"
+              />
+              <span v-if="questao">{{ questao.op2 }}</span>
+            </label>
+
+            <label>
+              <input
+                v-model="resposta"
+                value="3"
+                type="radio"
+                class="nes-radio"
+                name="answer"
+              />
+              <span v-if="questao">{{ questao.op3 }}</span>
+            </label>
+          </div>
+        </div>
+        <div v-show="resposta > 0" class="menu">
+          <button class="nes-btn is-success" @click="enviarResposta()">
+            Responder >
+          </button>
+        </div>
+      </div>
+      <div v-show="vidas <= 0" class="game-over">
+        <h1 class="nes-text is-error">VOCÊ PERDEU</h1>
+        <p>Seu nível : {{ indices.length }}</p>
+        <p>Melhor pontuação : {{ melhorPontuacao }} respostas corretas</p>
+        <button @click="jogarNovamente()" class="nes-btn is-primary">
+          JOGAR NOVAMENTE
+        </button>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
